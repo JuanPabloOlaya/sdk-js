@@ -1,22 +1,49 @@
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-      },
-    ],
-  },
+module.exports = (env) => {
+  const isDevBuild = !(env && env.prod);
+
+  return {
+    entry: './src/index.js',
+    output: {
+      filename: 'widget.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+    devServer: {
+      contentBase: './dist',
+    },
+    plugins: isDevBuild ? [
+      new webpack.SourceMapDevToolPlugin(),
+    ] : [],
+    optimization: {
+      minimize: !isDevBuild,
+    },
+    mode: isDevBuild ? 'development' : 'production',
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.(js|ts|tsx|jsx)$/,
+          exclude: /node_modules/,
+          use:
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['@babel/preset-env', { targets: { 'browsers': ['IE 11, last 2 versions'] } }]
+              ],
+            },
+          },
+        },
+      ],
+    },
+  };
 };
