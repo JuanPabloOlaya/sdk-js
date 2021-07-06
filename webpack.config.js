@@ -38,12 +38,19 @@ module.exports = (env) => {
             loader: 'babel-loader',
             options: {
               presets: [
-                ['@babel/preset-env', { targets: { 'browsers': ['IE 11, last 2 versions'] } }]
+                ['@babel/preset-env', { 
+                  targets: { 'browsers': 'ie 11, last 2 versions' },
+                  useBuiltIns: 'usage',
+                  corejs: { version: '3.15', proposals: true},
+                }],
               ],
             },
           },
         },
       ],
+    },
+    resolve: {
+      extensions: ['*', '.js'],
     },
   };
 };
