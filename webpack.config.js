@@ -17,6 +17,9 @@ module.exports = (env) => {
       new webpack.SourceMapDevToolPlugin(),
     ] : [],
     optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
       minimize: !isDevBuild,
     },
     mode: isDevBuild ? 'development' : 'production',
@@ -37,13 +40,11 @@ module.exports = (env) => {
           {
             loader: 'babel-loader',
             options: {
-              presets: [
-                ['@babel/preset-env', { 
-                  targets: { 'browsers': 'ie 11, last 2 versions' },
-                  useBuiltIns: 'usage',
-                  corejs: { version: '3.15', proposals: true},
-                }],
-              ],
+              babelrc: false,
+              configFile: path.resolve(__dirname, '.babel.config.js'),
+              compact: false,
+              cacheDirectory: false,
+              sourceMaps: false,
             },
           },
         },
