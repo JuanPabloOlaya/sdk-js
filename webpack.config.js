@@ -7,8 +7,9 @@ module.exports = (env) => {
   return {
     entry: './src/index.js',
     output: {
-      filename: 'widget.js',
+      filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      publicPath: '',
     },
     devServer: {
       contentBase: './dist',
@@ -17,9 +18,6 @@ module.exports = (env) => {
       new webpack.SourceMapDevToolPlugin(),
     ] : [],
     optimization: {
-      splitChunks: {
-        chunks: 'all',
-      },
       minimize: !isDevBuild,
     },
     mode: isDevBuild ? 'development' : 'production',

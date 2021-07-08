@@ -6,18 +6,12 @@ module.exports = function(api) {
       {
         corejs: {version: '3', proposals: true},
         useBuiltIns: 'usage',
-        targets: [
-          "edge >= 16",
-          "safari >= 9",
-          "firefox >= 57",
-          "ie >= 11",
-          "ios >= 9",
-          "chrome >= 49",
-        ],
       },
     ],
   ];
-  const plugins = [];
+  const plugins = [
+    '@babel/plugin-transform-runtime',
+  ];
 
   return {
     presets,
