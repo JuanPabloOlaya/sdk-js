@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDK JS</title>
+</head>
+
+<body>
+  <label>This is a tipical page 😁</label>
+  <script>
+    (function(window, document, scriptTagName, scriptUrl, globalName, scriptElement, otherScriptElement) {
+      window['MasivChatBotWidget'] = globalName;
+
+      window[globalName] = window[globalName] || function() {
+        (window[globalName].q = window[globalName].q || []).push(arguments);
+      };
+
+      scriptElement = document.createElement(scriptTagName);
+      otherScriptElement = document.getElementsByTagName(scriptTagName)[0];
+      scriptElement.id = globalName;
+      scriptElement.async = 1;
+      scriptElement.src = scriptUrl;
+
+      otherScriptElement.parentNode.insertBefore(scriptElement, otherScriptElement);
+    })(window, document, 'script', './main.bundle.js', 'mcbw');
+    window.mcbwAsyncInit = function() {
+      mcbw.initWidget({ someConfiguration: 42 });
+      mcbw.showMessage();
+    }
+  </script>
+</body>
+
+</html>

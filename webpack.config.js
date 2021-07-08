@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env) => {
   const isDevBuild = !(env && env.prod);
@@ -10,12 +11,20 @@ module.exports = (env) => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
       publicPath: '',
+      clean: true,
     },
     devServer: {
       contentBase: './dist',
     },
     plugins: isDevBuild ? [
       new webpack.SourceMapDevToolPlugin(),
+      new copyWebpackPlugin({
+        patterns: [
+          {
+            from: './demo/index.html',
+          },
+        ],
+      })
     ] : [],
     optimization: {
       minimize: !isDevBuild,
